@@ -37,11 +37,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Tambah Task"),
-        backgroundColor: Colors.blueAccent,
-        foregroundColor: Colors.white,
-      ),
+      appBar: AppBar(title: Text("Tambah Task")),
 
       body: Padding(
         padding: EdgeInsets.all(16),
@@ -66,6 +62,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 border: OutlineInputBorder(),
               ),
             ),
+            SizedBox(height: 10),
             ElevatedButton(onPressed: addTask, child: Text("Simpan")),
           ],
         ),

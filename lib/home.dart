@@ -62,41 +62,25 @@ class _HomeState extends State<Home> {
                 itemCount: tasks.length,
                 itemBuilder: (context, index) {
                   final task = tasks[index];
-                },
-              ),
-            ),
-            Card(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(Icons.check_circle_outline),
-                    SizedBox(width: 12),
-                    Column(
-                      children: [
-                        Text(
-                          tasks.isNotEmpty ? tasks[0]["title"] : "loading. . .",
-                        ),
-                        Text(tasks.isNotEmpty ? tasks[0]["title"] : ""),
-                      ],
+                  return Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.check_circle_outline),
+                          const SizedBox(width: 12),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(task["title"]),
+                              Text(task["description"]),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-
-            Card(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(Icons.check_circle_outline),
-                    SizedBox(width: 12),
-                    Column(children: [Text("Latihan Git"), Text("Complated")]),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
           ],
