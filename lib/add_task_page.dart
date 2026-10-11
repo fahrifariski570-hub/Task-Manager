@@ -11,7 +11,7 @@ class AddTaskPage extends StatefulWidget {
 class _AddTaskPageState extends State<AddTaskPage> {
   Future<void> addTask() async {
     final response = await http.post(
-      Uri.parse("http://localhost/task_manager_api/add_task.php"),
+      Uri.parse("http://192.168.101.3/task_manager_api/add_task.php"),
       body: {
         "title": _judulController.text,
         "description": _deskripsiController.text,

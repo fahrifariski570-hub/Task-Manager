@@ -12,8 +12,32 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<dynamic> tasks = [];
+  Future<void> deleteTask(int id) async {
+    final response = await http.post(
+      Uri.parse("http://localhost/task_manager_api/delete_task.php"),
+      body: {"id": id.toString()},
+    );
 
+    if (response.statusCode == 200) {
+      gettasks();
+    }
+  }
+
+  Future<void> updateTask(int id, int isCompleted) async {
+    final response = await http.post(
+      Uri.parse("http://localhost/task_manager_api/update_task.php"),
+      body: {"id": id.toString(), "is_completed": isCompleted.toString()},
+    );
+
+    debugPrint("Status: ${response.statusCode}");
+    debugPrint("Response: ${response.body}");
+
+    if (response.statusCode == 200) {
+      gettasks();
+    }
+  }
+
+  List<dynamic> tasks = [];
   Future<void> gettasks() async {
     final response = await http.get(
       Uri.parse("http://localhost/task_manager_api/get_tasks.php"),
@@ -62,21 +86,26 @@ class _HomeState extends State<Home> {
                 itemCount: tasks.length,
                 itemBuilder: (context, index) {
                   final task = tasks[index];
+
+                  final id = int.parse(task["id"].toString());
+
+                  final isCompleted = task["is_completed"].toString() == "1";
+
                   return Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        children: [
-                          const Icon(Icons.check_circle_outline),
-                          const SizedBox(width: 12),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(task["title"]),
-                              Text(task["description"]),
-                            ],
-                          ),
-                        ],
+                    child: ListTile(
+                      leading: Checkbox(
+                        value: isCompleted,
+                        onChanged: (value) {
+                          updateTask(id, value == true ? 1 : 0);
+                        },
+                      ),
+                      title: Text(task["title"].toString()),
+                      subtitle: Text(task["description"].toString()),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          deleteTask(id);
+                        },
                       ),
                     ),
                   );
